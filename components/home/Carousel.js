@@ -12,7 +12,6 @@ import trending$ from '../../stores/trending';
 import { useTheme } from '../../theme/ThemeProvider';
 
 export default function Carousel() {
-
   const { colors } = useTheme()
   const styles = useMemo(() => makeStyles(colors), [colors])
 
