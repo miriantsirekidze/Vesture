@@ -1,21 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useEffect} from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { ThemeProvider } from "./theme/ThemeProvider";
+import { subscribeTrending } from "./utils/trending";
+import AppTabs from "./navigation";
 
 export default function App() {
+  useEffect(() => {
+    const unsubscribe = subscribeTrending();
+    return unsubscribe;
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider>
+      <NavigationContainer>
+        <AppTabs />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
