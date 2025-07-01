@@ -19,7 +19,6 @@ export default function Carousel() {
   const trending = use$(trending$.items);
   const { width: screenWidth } = useWindowDimensions();
 
-  // 1. Process items
   const capped = useMemo(() => trending.slice(0, 150), [trending]);
   const withMeta = [], withoutMeta = [];
   capped.forEach(item => {
@@ -46,16 +45,14 @@ export default function Carousel() {
   const processed = useMemo(() => shuffleAvoidingAdjacent(prioritized), [prioritized]);
   const carouselData = useMemo(() => [...processed, ...processed], [processed]);
 
-  // 2. Layout & paging
   const PAGE_SIZE = 3;
-  const SPACING = 4;  // reduced spacing for larger cards
+  const SPACING = 4;
   const totalGaps = PAGE_SIZE + 1;
   const ITEM_WIDTH = (screenWidth - SPACING * totalGaps) / PAGE_SIZE;
   const ITEM_HEIGHT = ITEM_WIDTH * (4 / 2);
   const offsetStep = PAGE_SIZE * (ITEM_WIDTH + SPACING);
   const numPages = Math.ceil(processed.length / PAGE_SIZE);
 
-  // 3. Animated & timer
   const scrollRef = useAnimatedRef();
   const page = useSharedValue(0);
   const timer = useRef(null);
@@ -76,18 +73,15 @@ export default function Carousel() {
     }, 3000);
   }, [numPages]);
 
-  // scroll whenever page changes (worklet, no render-time reads)
   useDerivedValue(() => {
     scrollTo(scrollRef, page.value * offsetStep, 0, true);
   });
 
-  // start timer on mount
   useEffect(() => {
     scheduleNext();
     return () => clearTimer();
   }, [scheduleNext]);
 
-  // user scroll handling
   const onScrollBeginDrag = () => {
     clearTimer();
   };
