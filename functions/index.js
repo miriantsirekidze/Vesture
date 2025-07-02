@@ -6,8 +6,6 @@ admin.initializeApp();
 
 const OPENAI_KEY = functions.config().openai.key;
 const VISION_KEY = functions.config().vision.key;
-const CSE_ID = functions.config().cse.key
-const CUSTOM_SEARCH = functions.config().customsearch.key
 const SERP_KEY = functions.config().serp.key
 const db = admin.firestore()
 
@@ -17,7 +15,6 @@ const OpenAI = require('openai');
 const openai = new OpenAI({
   apiKey: OPENAI_KEY,
 });
-
 
 
 exports.checkPriceAlerts = functions.pubsub
